@@ -490,6 +490,7 @@ if __name__=="__main__":
 
     if args.innernum==-1:
         inner_loop = {0: {'force_mode': -1}}
+        config_dict['flag_time']['value'] = 0
 
     if args.testmode==0:
         para_search     = {"basic_str":{"range":[1000, 3000, 5000, 7000], "short":"ba"}, 
