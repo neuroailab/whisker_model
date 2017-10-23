@@ -1,0 +1,4 @@
+-I/usr/local/Cellar/boost/1.62.0/include
+-I/usr/local/include/bullet
+-I/usr/local/include/
+-std=c++11
