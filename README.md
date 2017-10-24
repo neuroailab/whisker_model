@@ -41,7 +41,7 @@ Within the command we use, `mp4flag` determines whether the program will generat
 You can also read the source code in `cmd_gen.py` to understand more of those parameters. 
 Especially, if you want to use the whisker model in your way, you could read each parameter in `config_dict` in `cmd_gen.py`, as these parameters are sent to the whisker model to modify its behavior.
 
-If you are also interested in reproducing the behavior optimization results by yourself, please contact [Chengxu](chengxuz@stanford.edu). The code is also provided here, but reproduction is complex and may not be of general interest.
+If you are also interested in reproducing the behavior optimization results by yourself, please contact [Chengxu](mailto:chengxuz@stanford.edu). The code is also provided here, but reproduction is complex and may not be of general interest.
 
 ## Dataset generating
 
