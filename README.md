@@ -34,10 +34,24 @@ If everything is correct, you will see one single whisker behaving unnaturalisti
 
 ### Provide correct config
 
-To take a quick view of whisker model used in our experiment, run following command under folder `cmd_gen_mp4/`: `python cmd_gen.py  --mp4flag 0 --testmode 1 --pathexe /path/to/your/build/ExampleBrowser/App_ExampleBrowser --fromcfg /path/to/this/repo/cmd_gen_mp4/opt_results/para_ --indxend 31`. 
-Like the controlling method in Bullet demos, you could use "Ctrl + Pressing left mouse + rotate" to rotate the view and "Pressing left mouse + move" to try to apply force to the whiskers.
+To take a quick view of whisker model used in our experiment, run following command under folder `cmd_gen_mp4/`: `python cmd_gen.py --mp4flag 0 --testmode 1 --pathexe /path/to/your/build/ExampleBrowser/App_ExampleBrowser --fromcfg /path/to/this/repo/cmd_gen_mp4/opt_results/para_ --indxend 31`. 
+Like interacting in Bullet demos, you could use "Ctrl + Pressing left mouse + rotate" within the window to rotate the view and "Pressing left mouse + move" to try to apply forces to the whiskers.
+
+Within the command we use, `mp4flag` determines whether the program will generate a video in mp4 format (`ffmpeg` required) and `fromcfg` specifies the location of specific parameters for each whiskers, which we got from behavior optimization mentioned in the paper.
+You can also read the source code in `cmd_gen.py` to understand more of those parameters. 
+Especially, if you want to use the whisker model in your way, you could read each parameter in `config_dict` in `cmd_gen.py`, as these parameters are sent to the whisker model to modify its behavior.
+
+If you are also interested in reproducing the behavior optimization results by yourself, please contact [Chengxu](chengxuz@stanford.edu). The code is also provided here, but reproduction is complex and may not be of general interest.
 
 ## Dataset generating
+
+We use objects in [ShapeNet](https://www.shapenet.org/) to generate the dataset.
+After downloading the 3D models, you need to use [v-hacd](https://github.com/kmammou/v-hacd) to process all the models to transfer each object into a set of "near" convex parts.
+The parameter we used in v-hacd is `--resolution 500000 --maxNumVerticesPerCH 64`.
+After processing the models, the path of one model should be organized as following example: `/path/to/your/models/02691156/a6693555a4c0bd47434e905131c8d6c6/a6693555a4c0bd47434e905131c8d6c6.obj`.
+
+We sampled 9981 objects from ShapeNet to get a balanced distribution in categories (see our paper for details, the actual code is in `get_obj_list.py`). 
+The object information we used is stored in `obj_choice_2.txt` under `cmd_gen_mp4/`.
 
 # Network training
 
