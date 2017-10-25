@@ -23,7 +23,12 @@ Specifically, we implement our whisker model in demo `TestHingeTorque` and the a
 
 ### How to compile
 
-Make a new directory in any place you want, then run following command for compiling: `cmake -D BULLET_PHYSICS_SOURCE_DIR:SPRING=/path/to/your/bullet/code/repo/ /path/to/this/repo/bullet_demos_extracted/examples/`. 
+Make a new directory in any place you want, then run following command for compiling: 
+
+```
+cmake -D BULLET_PHYSICS_SOURCE_DIR:SPRING=/path/to/your/bullet/code/repo/ /path/to/this/repo/bullet_demos_extracted/examples/
+```
+
 The reason we need path of bullet source code as input is that we need one library file compiled during building Bullet, which is also why we require that the build of bullet is done in `bullet_build` under bullet source code directory.
 
 If you install bullet and boost locally, then you also need to specify the `BOOST_ROOT` and `BULLET_ROOT` in cmake command by inserting `-D BOOST_ROOT:SPRING=/path/to/your/boost/installation/` and `-D BULLET_ROOT:SPRING=/path/to/your/bullet/installation/` before `/path/to/this/repo/bullet_demos_extracted/examples/`.
@@ -34,7 +39,12 @@ If everything is correct, you will see one single whisker behaving unnaturalisti
 
 ### Provide correct config
 
-To take a quick view of whisker model used in our experiment, run following command under folder `cmd_gen_mp4/`: `python cmd_gen.py --mp4flag 0 --testmode 1 --pathexe /path/to/your/build/ExampleBrowser/App_ExampleBrowser --fromcfg /path/to/this/repo/cmd_gen_mp4/opt_results/para_ --indxend 31`. 
+To take a quick view of whisker model used in our experiment, run following command under folder `cmd_gen_mp4/`: 
+
+```
+python cmd_gen.py --mp4flag 0 --testmode 1 --pathexe /path/to/your/build/ExampleBrowser/App_ExampleBrowser --fromcfg /path/to/this/repo/cmd_gen_mp4/opt_results/para_ --indxend 31
+```
+
 Like interacting in Bullet demos, you could use "Ctrl + Pressing left mouse + rotate" within the window to rotate the view and "Pressing left mouse + move" to try to apply forces to the whiskers.
 
 Within the command we use, `mp4flag` determines whether the program will generate a video in mp4 format (`ffmpeg` required) and `fromcfg` specifies the location of specific parameters for each whiskers, which we got from behavior optimization mentioned in the paper.
