@@ -13,7 +13,7 @@ For compiling the whisker model, you need to have:
 - `cmake`
 - `boost`, for parsing the config files. Local installation is supported.
 - `Bullet`, we use it as physic engine. We also require that the build of bullet is done in `bullet_build` under bullet source code directory. Local installation is supported.
-- `hdf5`, hdf5 is also needed to generate the dataset. Only global installation is supported.
+- `hdf5`, hdf5 is needed to generate the dataset. Only global installation is supported.
 
 Currently, we only support Linux and Mac OS systems. Windows are not supported now.
 
@@ -45,6 +45,8 @@ If you are also interested in reproducing the behavior optimization results by y
 
 ## Dataset generating
 
+### Preprocessing objects from ShapeNet
+
 We use objects in [ShapeNet](https://www.shapenet.org/) to generate the dataset.
 After downloading the 3D models, you need to use [v-hacd](https://github.com/kmammou/v-hacd) to process all the models to transfer each object into a set of "near" convex parts.
 The parameter we used in v-hacd is `--resolution 500000 --maxNumVerticesPerCH 64`.
@@ -52,6 +54,41 @@ After processing the models, the path of one model should be organized as follow
 
 We sampled 9981 objects from ShapeNet to get a balanced distribution in categories (see our paper for details, the actual code is in `get_obj_list.py`). 
 The object information we used is stored in `obj_choice_2.txt` under `cmd_gen_mp4/`.
+
+### Generate the dataset in hdf5s
+
+To generate the dataset using those 9981 objects, we use non-interactive whisker model, which should be at `/path/to/your/build/Constraints/App_TestHinge`. Starting `App_TestHinge` will not start a winodw and the simulation will be done in the same way as starting `App_ExampleBrowser`. Besides, another folder (`config_folder`) needs to be created to hold all the configs generated during dataset generation. The command to generate the whole dataset under `cmd_gen_mp4/` is as following:
+
+```
+python cmd_dataset.py --objsta 0 --objlen 9981 --bigsamnum 24 --pathexe /path/to/your/build/Constraints/App_TestHinge --fromcfg /path/to/this/repo/cmd_gen_mp4/opt_results/para_ --pathconfig /path/to/your/config_folder --savedir /path/to/store/hdf5s --loaddir /path/to/your/models --seedbas 0
+```
+
+This command will generate `9981*24` hdf5s in `/path/to/store/hdf5s`. 
+You can parallel it by running multiple commands with different `--objsta` (starting index of objects for generation, between 0 and 9980) and `--objlen` (number of objects for generation). 
+And here `--bigsamnum 24` means 24 independent settings will be generated for each object.
+We will use `1/13` of those hdf5s as validation dataset.
+
+With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can generate validation dataset as well. (Here we set seedbas to be 10000 as in the program, `seedbas + objIndex` will be used as random seed for each object) 
+
+### Generate tfrecords from hdf5s
+
+After all the hdf5s have been generated, we use `cmd_to_tfr_bycat.py` under `cmd_gen_mp4/` to generate tfrecords needed to train the models using tensorflow.
+
+The command is as following:
+
+```
+python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 0 --loaddir /path/to/store/hdf5s --savedir /path/to/store/tfrecords --suffix strain --bigsamnum 24
+```
+
+Here, we are generating tfrecords by each category. There are overall 117 categories. 
+Parameter `catsta` indicates the starting index of this generation and `catlen` is the number of categories this generation will cover. 
+Parameter `suffix` is just the suffix of tfrecord names, which we will use later to distinguish train/val split.
+
+If you want to generate tfrecords for validation, the command can be modified as following:
+
+```
+python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 10000 --loaddir /path/to/store/validation/hdf5s --savedir /path/to/store/tfrecords --suffix sval --bigsamnum 2
+```
 
 # Network training
 
