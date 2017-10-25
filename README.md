@@ -102,4 +102,11 @@ python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 10000 --loaddir /pa
 
 # Network training
 
-Codes for training deep neural networks reported in paper are in folder `train_barrel_net/`.
+Codes for training deep neural networks reported in paper are in folder `train_barrel_net/`. We use tensorflow and [tfutils](https://github.com/neuroailab/tfutils).
+
+Tfutils is a repo helping the use of tensorflow for model training, validating, saving, resuming, and logging.
+It will store everything in a MongoDB.
+Therefore, you need to start your own MongoDB.
+Please check [tfutils](https://github.com/neuroailab/tfutils) for more tutorials about using it.
+
+
