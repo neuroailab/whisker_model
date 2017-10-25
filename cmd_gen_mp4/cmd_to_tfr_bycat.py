@@ -107,16 +107,13 @@ def main():
     parser = argparse.ArgumentParser(description='The script to get object category list')
     parser.add_argument('--catsta', default = 0, type = int, action = 'store', help = 'Start index in the object list')
     parser.add_argument('--catlen', default = 1, type = int, action = 'store', help = 'Length for generating')
-    #parser.add_argument('--seedbas', default = 0, type = int, action = 'store', help = 'Seed basis for randomization')
-    parser.add_argument('--seedbas', default = 10000, type = int, action = 'store', help = 'Seed basis for randomization')
+    parser.add_argument('--seedbas', default = 0, type = int, action = 'store', help = 'Seed basis for randomization')
     parser.add_argument('--bigsamnum', default = 12, type = int, action = 'store', help = 'Sampling number for every object')
-    #parser.add_argument('--loaddir', default = '/om/user/chengxuz/Data/barrel_dataset2/raw_hdf5', type = str, action = 'store', help = 'Directory for the generated hdf5s')
-    #parser.add_argument('--savedir', default = '/om/user/chengxuz/Data/barrel_dataset2/tfrecords', type = str, action = 'store', help = 'Directory for the generated tfrecords')
+    parser.add_argument('--objcat', default = 'obj_category.txt', type = str, action = 'store', help = 'The file having the object information')
+    parser.add_argument('--suffix', default = 'strain', type = str, action = 'store', help = 'Suffix to indicate whether this is for train/val')
+
     parser.add_argument('--loaddir', default = '/scratch/users/chengxuz/barrel/barrel_relat_files/dataset2/raw_hdf5', type = str, action = 'store', help = 'Directory for the generated hdf5s')
     parser.add_argument('--savedir', default = '/scratch/users/chengxuz/barrel/barrel_relat_files/dataset2/tfrecords', type = str, action = 'store', help = 'Directory for the generated tfrecords')
-    parser.add_argument('--objcat', default = 'obj_category.txt', type = str, action = 'store', help = 'The file having the object information')
-    parser.add_argument('--suffix', default = 'strain', type = str, action = 'store', help = 'Suffix to indicate whether this is saumple num train/val')
-    #parser.add_argument('--checkmode', default = 0, type = int, action = 'store', help = '0 means writting mode, 1 means checking mode (only implemented for Data_force now)')
 
     args    = parser.parse_args()
 
@@ -125,18 +122,17 @@ def main():
     sam_rate = 2.0/26.0
     obj_len = 21
 
-    '''
     key_list =[
         u'Data_force',
         #u'Data_normal',
         u'Data_torque',
-        u'orn',
-        u'position',
-        u'speed'
+        #u'orn',
+        #u'position',
+        #u'speed',
+        #u'scale',
         ]
-    '''
     #key_list =[u'scale']
-    key_list =[]
+    #key_list =[]
 
     for which_cat in xrange(args.catsta, min(args.catsta + args.catlen, len(cat_dict.keys()))):
         now_objlist = cat_dict[which_cat]
@@ -180,9 +176,9 @@ def main():
 
             writer.close()
 
-        #for key_now in ['category']:
+        for key_now in ['category']:
         #for key_now in []:
-        for key_now in ['objid']:
+        #for key_now in ['objid']:
             dir_now = os.path.join(args.savedir, key_now)
             if not os.path.isdir(dir_now):
                 os.system('mkdir -p %s' % dir_now)
@@ -201,7 +197,6 @@ def main():
 
                 writer = tf.python_io.TFRecordWriter(path_now)
 
-                #write_cate(writer, which_cat, now_objlist, train_sta, real_obj_len, args)
                 write_cate(writer, label_now, now_objlist, train_sta, real_obj_len, args)
 
                 writer.close()
@@ -211,7 +206,6 @@ def main():
 
             writer = tf.python_io.TFRecordWriter(path_now)
 
-            #write_cate(writer, which_cat, now_objlist, train_len, val_num_obj, args)
             write_cate(writer, label_now, now_objlist, train_len, val_num_obj, args)
 
             writer.close()
