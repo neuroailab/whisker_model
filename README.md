@@ -78,7 +78,7 @@ You can parallel it by running multiple commands with different `--objsta` (star
 And here `--bigsamnum 24` means 24 independent settings will be generated for each object.
 We will use `1/13` of those hdf5s as validation dataset.
 
-With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can generate validation dataset as well. (Here we set seedbas to be 10000 as in the program, `seedbas + objIndex` will be used as random seed for each object) 
+With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can generate validation dataset as well. (Here we set seedbas to be 10000 as in the program, as `seedbas + objIndex` will be used as random seed for each object) 
 
 ### Generate tfrecords from hdf5s
 
@@ -94,7 +94,7 @@ Here, we are generating tfrecords by each category. There are overall 117 catego
 Parameter `catsta` indicates the starting index of this generation and `catlen` is the number of categories this generation will cover. 
 Parameter `suffix` is just the suffix of tfrecord names, which we will use later to distinguish train/val split.
 
-If you want to generate tfrecords for validation, the command can be modified as following:
+In order to generate tfrecords for validation, the command need to be modified as following:
 
 ```
 python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 10000 --loaddir /path/to/store/validation/hdf5s --savedir /path/to/store/tfrecords --suffix sval --bigsamnum 2
