@@ -41,30 +41,33 @@ if 'neuroaicluster' in host:
     DATA_PATH['Data_force_stat'] = train_data_path_prefix + '/Data_force/Data_force_combined.pkl'
     DATA_PATH['Data_torque_stat'] = train_data_path_prefix + '/Data_torque/Data_torque_combined.pkl'
 
-NEW_DATA_PATH = {}
-new_data_path_prefix = '/mnt/fs2/chengxuz/Data/whisker2/tfrecords2'
+def get_new_data_path(new_data_path_prefix='/mnt/fs2/chengxuz/Data/whisker2/tfrecords2'):
+    NEW_DATA_PATH = {}
 
-NEW_DATA_PATH['train/Data_force'] = new_data_path_prefix + '/Data_force/'
-NEW_DATA_PATH['train/Data_torque'] = new_data_path_prefix + '/Data_torque/'
-NEW_DATA_PATH['train/category'] = new_data_path_prefix + '/category/'
-NEW_DATA_PATH['val/Data_force'] = new_data_path_prefix + '/Data_force/'
-NEW_DATA_PATH['val/Data_torque'] = new_data_path_prefix + '/Data_torque/'
-NEW_DATA_PATH['val/category'] = new_data_path_prefix + '/category/'
+    NEW_DATA_PATH['train/Data_force'] = new_data_path_prefix + '/Data_force/'
+    NEW_DATA_PATH['train/Data_torque'] = new_data_path_prefix + '/Data_torque/'
+    NEW_DATA_PATH['train/category'] = new_data_path_prefix + '/category/'
+    NEW_DATA_PATH['val/Data_force'] = new_data_path_prefix + '/Data_force/'
+    NEW_DATA_PATH['val/Data_torque'] = new_data_path_prefix + '/Data_torque/'
+    NEW_DATA_PATH['val/category'] = new_data_path_prefix + '/category/'
 
-#OTHER_LABELS_LIST = ['speed', 'orn', 'scale', 'position']
-#OTHER_LABELS_LIST = ['speed', 'orn', 'scale', 'position', 'objid']
-OTHER_LABELS_LIST = ['speed', 'orn', 'scale', 'position', 'objid']
+    #OTHER_LABELS_LIST = ['speed', 'orn', 'scale', 'position']
+    #OTHER_LABELS_LIST = ['speed', 'orn', 'scale', 'position', 'objid']
+    OTHER_LABELS_LIST = ['speed', 'orn', 'scale', 'position', 'objid']
 
-for other_label in OTHER_LABELS_LIST:
-    for group in ['train', 'val']:
-        NEW_DATA_PATH['%s/%s' % (group, other_label)] = '%s/%s/' % (new_data_path_prefix, other_label)
+    for other_label in OTHER_LABELS_LIST:
+        for group in ['train', 'val']:
+            NEW_DATA_PATH['%s/%s' % (group, other_label)] = '%s/%s/' % (new_data_path_prefix, other_label)
 
-NEW_DATA_PATH['strain'] = '*_strain.tfrecords'
-NEW_DATA_PATH['sval'] = '*_sval.tfrecords'
+    NEW_DATA_PATH['strain'] = '*_strain.tfrecords'
+    NEW_DATA_PATH['sval'] = '*_sval.tfrecords'
 
-NEW_DATA_PATH['ctrain'] = 'ctrain_*.tfrecords'
-NEW_DATA_PATH['cval'] = 'cval_*.tfrecords'
+    NEW_DATA_PATH['ctrain'] = 'ctrain_*.tfrecords'
+    NEW_DATA_PATH['cval'] = 'cval_*.tfrecords'
+    
+    return NEW_DATA_PATH
 
+NEW_DATA_PATH = get_new_data_path()
 
 def online_agg(agg_res, res, step):
     if agg_res is None:
@@ -740,6 +743,9 @@ def get_params_from_arg(args):
         val_queue_params['capacity'] = BATCH_SIZE*10//12
 
     if args.newdata==1:
+        if not args.newdataprefix is None:
+            NEW_DATA_PATH = get_new_data_path(new_data_path_prefix = args.newdataprefix)
+
         train_data_param['data_path'] = NEW_DATA_PATH
         val_data_param['data_path'] = NEW_DATA_PATH
 
@@ -1211,6 +1217,7 @@ def main():
     parser.add_argument('--newdata', default = 0, type = int, action = 'store', help = 'Default is 0, use old dataset')
     parser.add_argument('--valbycat', default = 0, type = int, action = 'store', help = 'Default is 0, use original validation splitting')
     parser.add_argument('--otherlabels', default = 0, type = int, action = 'store', help = 'Default is 0, not including other labels')
+    parser.add_argument('--newdataprefix', default = None, type = str, action = 'store', help = 'Default is None, use default setting, otherwise specifying the storing folder for tfrecords')
 
     # Load old results related parameters
     parser.add_argument('--loadque', default = 0, type = int, action = 'store', help = 'Special setting for load query')
