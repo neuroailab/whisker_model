@@ -110,4 +110,10 @@ It will store everything in a MongoDB.
 Therefore, you need to start your own MongoDB.
 Please check [tfutils](https://github.com/neuroailab/tfutils) for more tutorials about using it.
 
+After launching your MongoDB at port `your_port`, you can train deep neural networks through running following commands under folder `train_barrel_net/`:
 
+For network `S_rand`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_n1_fix_1 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.001 --newdata 1 --fixweights 1 --
+```
