@@ -109,6 +109,7 @@ Tfutils is a repo helping the use of tensorflow for model training, validating, 
 It will store everything in a MongoDB.
 Therefore, you need to start your own MongoDB.
 Please check [tfutils](https://github.com/neuroailab/tfutils) for more tutorials about using it.
+__As tfutils is actively updating its master branch, please checkout to multiple_net branch and install it or put the folder under your PYTHONPATH.__
 
 After launching your MongoDB at port `your_port`, you can train deep neural networks through running following commands under folder `train_barrel_net/`:
 
