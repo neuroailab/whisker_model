@@ -84,7 +84,7 @@ With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can gene
 ### Generate tfrecords from hdf5s
 
 After all the hdf5s have been generated, we use `cmd_to_tfr_bycat.py` under `cmd_gen_mp4/` to generate tfrecords needed to train the models using tensorflow.
-Of course, you need to install `tensorflow`.
+Of course, you need to install [tensorflow](https://www.tensorflow.org/).
 
 The command is as following:
 
@@ -128,3 +128,135 @@ For network `S_rand`:
 ```
 python train_catenet.py --gpu your_gpu --expId catenet_newdata_n1_fix_1 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.001 --newdata 1 --fixweights 1 --newdataprefix /path/to/store/tfrecords
 ```
+
+Here, `--gpu` parameter will be sent to system environment variable `CUDA_VISIBLE_DEVICES` to control gpus you will use. Usually, only one number is enough. If you want to run the training on multiple gpus, you could set two or more gpus as `--gpu 0,1,2` and you also need to add `--parallel 1` in your command. 
+
+For network `S_2c0f`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_shallow4 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --pathconfig catenet_shallow4_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_1c0f`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_nd_shal2 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --parallel 1 --pathconfig catenet_shallow2_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_1c2f`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_sm_1conv --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --pathconfig catenet_sm2_1conv_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_2c1f`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_sm_2c1f --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --pathconfig catenet_sm2_2c1f_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_3c1f`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_sm_3c1f --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --pathconfig catenet_sm2_3c1f_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_few`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_nd_shal3 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --pathconfig catenet_shallow3_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_2c2f`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_sm_2conv --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --pathconfig catenet_sm2_2conv_config.cfg --newdataprefix /path/to/store/tfrecords
+```
+
+For network `S_3D`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords  --expId catenet_nd_3d --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_3d_config.cfg --namefunc catenet_3d_tfutils --expand 1 --newdata 1
+```
+
+For network `S_3c2f`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_sm_3conv --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --newdata 1 --parallel 1 --pathconfig catenet_sm2_3conv_config.cfg
+```
+
+For network `S_4c2f`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_sm_low2_2 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.006 --newdata 1 --parallel 1 --pathconfig catenet_sm_low2_config.cfg
+```
+
+For network `S`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_sm2 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.01 --newdata 1 --pathconfig catenet_sm2_config.cfg
+```
+
+For network `S_more`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_n1 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.01 --newdata 1
+```
+
+For network `S_deep`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_sm2_deep --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.01 --newdata 1 --parallel 1 --pathconfig catenet_sm2_deep_config.cfg
+```
+
+For network `TS_few`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_tempspa_less --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_temp_spa_evenless_config.cfg --namefunc catenet_temp_spa_tfutils --newdata 1
+```
+
+For network `TS`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_tempspa --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_temp_spa_less_config.cfg --namefunc catenet_temp_spa_tfutils --newdata 1
+```
+
+For network `ST`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_st_sp22_compare --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_spa_temp_sp22_more_config.cfg --namefunc catenet_spa_temp_tfutils --expand 1 --newdata 1
+```
+
+For RNN class networks, you also need to install repo [tnn](https://github.com/neuroailab/tnn.git). It's a repo helping the build of recurrent neural networks in tensorflow.
+
+For network `RNN_byp`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_tnn_byp_more --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_byp_more_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --decaytrain 1 --newdata 1
+```
+
+For network `RNN_lstm`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_tnn_lstm_sep22_relu --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_lstm_sep22_relu_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --newdata 1
+```
+
+For network `RNN_gru`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_nd_tnn_grusep22_relu --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_gru_sep22_relu_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --newdata 1
+```
+
+For network `RNN`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_tnn_more --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_sep22_more_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --decaytrain 1 --newdata 1
+```
+
+For network `RNN_fdb`:
+
+```
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_tnn_fdb --cacheDirPr$fix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_fdb_more_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --decaytrain 1 --newdata 1
+```
+
+For all the network trained, we will manually change learning rate to half of that when performance on validation dataset saturates, through stopping the command and restarting it with a lower `--initlr`. 
