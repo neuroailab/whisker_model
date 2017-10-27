@@ -1,4 +1,5 @@
-Codes for reproducing results in paper: https://arxiv.org/abs/1706.07555
+Codes for reproducing results in paper: https://arxiv.org/abs/1706.07555. 
+This README will introduce about how to compile and run whisker model, how to generate dataset, and how to train deep neural networks mentioned in the paper.
 
 # Whisker model and dataset generating
 
@@ -78,7 +79,7 @@ You can parallel it by running multiple commands with different `--objsta` (star
 And here `--bigsamnum 24` means 24 independent settings will be generated for each object.
 We will use `1/13` of those hdf5s as validation dataset.
 
-With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can generate validation dataset as well. (Here we set seedbas to be 10000 as in the program, `seedbas + objIndex` will be used as random seed for each object) 
+With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can generate validation dataset as well. (Here we set seedbas to be 10000 as in the program, as `seedbas + objIndex` will be used as random seed for each object) 
 
 ### Generate tfrecords from hdf5s
 
@@ -94,7 +95,7 @@ Here, we are generating tfrecords by each category. There are overall 117 catego
 Parameter `catsta` indicates the starting index of this generation and `catlen` is the number of categories this generation will cover. 
 Parameter `suffix` is just the suffix of tfrecord names, which we will use later to distinguish train/val split.
 
-If you want to generate tfrecords for validation, the command can be modified as following:
+In order to generate tfrecords for validation, the command need to be modified as following:
 
 ```
 python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 10000 --loaddir /path/to/store/validation/hdf5s --savedir /path/to/store/tfrecords --suffix sval --bigsamnum 2
@@ -102,4 +103,18 @@ python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 10000 --loaddir /pa
 
 # Network training
 
-Codes for training deep neural networks reported in paper are in folder `train_barrel_net/`.
+Codes for training deep neural networks reported in paper are in folder `train_barrel_net/`. We use tensorflow and [tfutils](https://github.com/neuroailab/tfutils).
+
+Tfutils is a repo helping the use of tensorflow for model training, validating, saving, resuming, and logging.
+It will store everything in a MongoDB.
+Therefore, you need to start your own MongoDB.
+Please check [tfutils](https://github.com/neuroailab/tfutils) for more tutorials about using it.
+__As tfutils is actively updating its master branch, please checkout to multiple_net branch and install it or put the folder under your PYTHONPATH.__
+
+After launching your MongoDB at port `your_port`, you can train deep neural networks through running following commands under folder `train_barrel_net/`:
+
+For network `S_rand`:
+
+```
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_n1_fix_1 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.001 --newdata 1 --fixweights 1 --
+```
