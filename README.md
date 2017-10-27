@@ -84,6 +84,7 @@ With `--seedbas 10000 --bigsamnum 2` and different folder for hdf5s, we can gene
 ### Generate tfrecords from hdf5s
 
 After all the hdf5s have been generated, we use `cmd_to_tfr_bycat.py` under `cmd_gen_mp4/` to generate tfrecords needed to train the models using tensorflow.
+Of course, you need to install `tensorflow`.
 
 The command is as following:
 
@@ -101,6 +102,15 @@ In order to generate tfrecords for validation, the command need to be modified a
 python cmd_to_tfr_bycat.py --catsta 0 --catlen 117 --seedbas 10000 --loaddir /path/to/store/validation/hdf5s --savedir /path/to/store/tfrecords --suffix sval --bigsamnum 2
 ```
 
+If nothing is wrong, you will be able to see three folders under `/path/to/store/tfrecords`: `Data_force`, `Data_torque`, `category`. 
+Each of these folders stores tfrecords for force, torque, and label respectively.
+
+Before training, you need to run script `make_meta.py` under `cmd_gen_mp4/` to create some help files under each tfrecord folders by:
+
+```
+python make_meta.py --dir /path/to/store/tfrecords
+```
+
 # Network training
 
 Codes for training deep neural networks reported in paper are in folder `train_barrel_net/`. We use tensorflow and [tfutils](https://github.com/neuroailab/tfutils).
@@ -116,5 +126,5 @@ After launching your MongoDB at port `your_port`, you can train deep neural netw
 For network `S_rand`:
 
 ```
-python train_catenet.py --gpu your_gpu --expId catenet_newdata_n1_fix_1 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.001 --newdata 1 --fixweights 1 --
+python train_catenet.py --gpu your_gpu --expId catenet_newdata_n1_fix_1 --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.001 --newdata 1 --fixweights 1 --newdataprefix /path/to/store/tfrecords
 ```
