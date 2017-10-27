@@ -1,4 +1,5 @@
-Codes for reproducing results in paper: https://arxiv.org/abs/1706.07555
+Codes for reproducing results in paper: https://arxiv.org/abs/1706.07555. 
+This README will introduce about how to compile and run whisker model, how to generate dataset, and how to train deep neural networks mentioned in the paper.
 
 # Whisker model and dataset generating
 
