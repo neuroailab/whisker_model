@@ -257,7 +257,7 @@ python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords 
 For network `RNN_fdb`:
 
 ```
-python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_tnn_fdb --cacheDirPr$fix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_fdb_more_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --decaytrain 1 --newdata 1
+python train_catenet.py --gpu your_gpu --newdataprefix /path/to/store/tfrecords --expId catenet_newdata_tnn_fdb --cacheDirPrefix /path/to/your/cache --whichopt 2 --initlr 0.003 --pathconfig catenet_tnn_fdb_more_config.cfg --namefunc catenet_tnn_tfutils --expand 1 --tnn 1 --tnndecay 0.1 --decaytrain 1 --newdata 1
 ```
 
 For all the network trained, we will manually change learning rate to half of that when performance on validation dataset saturates, through stopping the command and restarting it with a lower `--initlr`. 
